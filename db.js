@@ -1,36 +1,35 @@
-// const mongoose = require("mongoose");
-// const dotenv = require('dotenv')
-
-// dotenv.config()
-
-// const MONGODB_URL = process.env.MONGODB_URL
-
-// const db = async () => {
-
-//    try{
-//     const con  = await mongoose.connect(MONGODB_URL)
-//     console.log(`mongodb connnected: ${con.connection.host}`)
-//   }catch(error){
-//      console.error(error)
-//   }
-
-// }
-
-// module.exports = db
+const mongoose = require("mongoose");
 
 
-const mongoose = require('mongoose');
-require('dotenv').config();
+const connectDB = (props) => {
+  mongoose.connect("mongodb://localhost:27017/latestdb", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
+  // Insert a new user
+  // const newUser = new User({
+  //     username: 'john_doe',
+  //     email: 'john@example.com',
+  //   });
+  // newUser.save()
+  //   .then(() => {
+  //     console.log('User inserted successfully');
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error inserting user:', error);
+  //   });
+
+  // Event handling for successful connection
+  mongoose.connection.on("connected", () => {
+    console.log("Connected to MongoDB");
+  });
+
+  // Event handling for connection error
+  mongoose.connection.on("error", (err) => {
+    console.error("Error connecting to MongoDB:", err);
+  });
+};
 
 
-const mongoURl = "mongodb://localhost:27017/students"
-// const mongoURl = process.env.MONGODB_URI
-
-const db = ()=>{
-    mongoose.connect(mongoURl, ()=>{
-        console.log("Conneted to mongo Successfully");
-    })
-}
-
-
-module.exports = db;
+module.exports = connectDB;
